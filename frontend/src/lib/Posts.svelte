@@ -3,7 +3,7 @@
     import { posts } from "./store";
 
     onMount(async () => {
-        fetch("http://130.61.180.252:3000/posts")
+        fetch("https://d4dj.cz/api/posts")
             .then((response) => response.json())
             .then((data) => {
                 posts.setPosts(data);
