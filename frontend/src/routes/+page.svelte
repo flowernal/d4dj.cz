@@ -54,4 +54,4 @@
     .card:hover .post p {
         color: #646cff;
     }
-</style>
+</style> 
