@@ -1,17 +1,28 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { posts } from "./store";
+    import type { Post } from "../../../backend/src/types";
+
+    // const URL = "https://d4dj.cz/api";
+    const URL = "http://130.61.180.252:3000/api";
 
     onMount(async () => {
-        fetch("https://d4dj.cz/api/posts")
-            .then((response) => response.json())
-            .then((data) => {
-                posts.setPosts(data);
+        const posts_req = await fetch(`${URL}/posts`);
+        const posts_json = await posts_req.json();
+
+        const with_users = await Promise.all(
+            posts_json.map(async (post: Post) => {
+                const user_req = await fetch(`${URL}/users/${post.user_id}`);
+                const user_json = await user_req.json();
+
+                return {
+                    ...post,
+                    user: user_json,
+                };
             })
-            .catch((error) => {
-                console.log(error);
-                return [];
-            });
+        );
+        
+        posts.setPosts(with_users);
     });
 </script>
 
@@ -21,6 +32,7 @@
     {#each $posts as post}
     <div class="card">
         <p>ID: {post.id} | Created At: {post.created_at}</p>
+        <p>ID: {post.user.id} | Username: {post.user.username} | Created At: {post.user.created_at}</p>
         <h2>{post.title}</h2>
         <p>{post.body}</p>
     </div>

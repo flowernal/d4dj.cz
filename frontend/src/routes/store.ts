@@ -1,14 +1,18 @@
 import { writable } from "svelte/store";
-import { type Post } from "../../../backend/src/types";
+import type { Post, User } from "../../../backend/src/types";
+
+interface UserPost extends Post {
+    user: User
+}
 
 const initStore = () => {
-    const initialPosts: Post[] = [];
+    const initialPosts: UserPost[] = [];
 
     const { subscribe, set } = writable(initialPosts);
 
     return {
         subscribe,
-        setPosts: (posts: Post[]) => set(posts),
+        setPosts: (posts: UserPost[]) => set(posts),
         reset: () => set(initialPosts)
     };
 };
