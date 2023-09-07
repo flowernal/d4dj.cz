@@ -3,6 +3,7 @@ import { cors } from "@elysiajs/cors";
 import { createPost, createUser, getPost, getPosts, getUser, getUsers, login } from "./routes";
 
 const app = new Elysia()
+    .use(cors())
     .get("/api/posts", getPosts)
     .get("/api/posts/:id", ({ params: { id } }) => getPost(id))
     .post("/api/posts", ({ body }) => createPost(body))
