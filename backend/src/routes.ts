@@ -27,3 +27,14 @@ export const createUser = async (body: unknown) => {
 
     return { success: true };
 }
+
+export const login = async (id: string, body: unknown) => {
+    if (!isUserBody(body)) throw new Error("Invalid body");
+
+    const user = getUser(id);
+    const isMatch = await Bun.password.verify(body.password, user.password);
+
+    if (!isMatch) return { success: false }
+
+    return { success: true }
+}
