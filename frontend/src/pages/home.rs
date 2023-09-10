@@ -28,16 +28,11 @@ struct PostProps {
 #[function_component(PostList)]
 fn post_list(PostProps { posts }: &PostProps) -> Html {
     posts.iter().map(|post| html! {
-        <p key={post.id}>{format!("Title: {}, Body: {}", post.title, post.body)}</p>
+        <div>
+            <p>{format!("{}", post.title)}</p>
+            <p>{format!("{}", post.body)}</p>
+        </div>
     }).collect()
-}
-
-impl fmt::Display for Post {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "id: {:?}, title: {:?}, body: {:?}, user_id: {:?}, created_at: {:?}", 
-               self.id, self.title, self.body, self.user_id, self.created_at
-        )
-    }
 }
 
 #[function_component(Home)]
