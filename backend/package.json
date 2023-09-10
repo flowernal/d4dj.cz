@@ -1,14 +1,16 @@
 {
-    "name": "backend",
-    "version": "1.0.50",
-    "scripts": {
-        "dev": "bun run --watch src/index.ts"
-    },
-    "dependencies": {
-        "@elysiajs/cors": "^0.6.0",
-        "elysia": "latest"
-    },
-    "devDependencies": {
-        "bun-types": "latest"
-    }
+  "name": "backend",
+  "version": "1.0.50",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "@elysiajs/cookie": "^0.6.1",
+    "@elysiajs/cors": "^0.6.0",
+    "@elysiajs/jwt": "^0.6.3",
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  }
 }

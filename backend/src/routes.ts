@@ -1,5 +1,5 @@
 import { Database } from "bun:sqlite";
-import { Post, isPostBody, User, isUserBody } from "./types";
+import { Post, isPostBody, User, isUserBody, Attachment, isAttachmentBody } from "./types";
 
 const db = new Database("d4dj.sqlite");
 
@@ -27,12 +27,31 @@ export const createUser = async (body: unknown) => {
 }
 
 export const login = async (id: string, body: unknown) => {
-    if (!isUserBody(body)) throw new Error("Invalid body");
+    if (!isUserBody(body)) return { success: false, error: "Invalid body" };
 
     const user = getUser(id);
     const isMatch = await Bun.password.verify(body.password, user.password);
 
-    if (!isMatch) return { success: false }
+    if (!isMatch) return { success: false, error: "Invalid body" }
 
     return { success: true }
 }
+
+// Attachments
+export const getAttachments = () => db.query("SELECT * FROM attachments").all() as Attachment[];
+export const getAttachmentsByPostId = (post_id: string) => db.query("SELECT * FROM attachments WHERE post_id = $post_id").get({ $post_id: parseInt(post_id) }) as Attachment[];
+export const getAttachment = (id: string) => db.query("SELECT * FROM attachment WHERE id = $id").get({ $id: parseInt(id) }) as Attachment;
+
+export const createAttachment = (body: unknown) => {
+    if (!isAttachmentBody(body)) return { success: false, error: "Invalid body" };
+    
+    try {
+        db.query("INSERT INTO attachments (post_id, url) VALUES ($post_id, $url)").run({ $post_id: body.post_id, $url: body.url });
+    } catch (error: any) {
+        return { success: false, error }
+    }
+
+    return { success: true }
+}
+
+
