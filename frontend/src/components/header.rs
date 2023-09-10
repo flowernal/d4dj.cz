@@ -1,4 +1,6 @@
+use crate::router::AppRoute;
 use yew::prelude::*;
+use yew_router::prelude::*;
 
 #[function_component(Header)]
 pub fn header() -> Html {
@@ -7,8 +9,10 @@ pub fn header() -> Html {
             <div>
                 <h1>{ "D4DJCZ XD" }</h1>
             </div>
-            <div class="nav">
+            <div class="navbar">
                 <nav>
+                    <Link<AppRoute> to={AppRoute::Home}>{ "Home" }</Link<AppRoute>>
+                    <Link<AppRoute> to={AppRoute::Post}>{ "Post" }</Link<AppRoute>>
                 </nav>
             </div>
         </header>
