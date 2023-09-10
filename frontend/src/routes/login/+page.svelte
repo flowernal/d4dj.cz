@@ -1,7 +1,0 @@
-<div>
-    <form method="POST" action="?/login">
-        <input type="text" name="username">
-        <input type="text" name="password">
-        <input type="submit" value="Login">
-    </form>
-</div>
