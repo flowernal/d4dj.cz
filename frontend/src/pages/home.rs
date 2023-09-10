@@ -28,8 +28,9 @@ struct PostProps {
 #[function_component(PostList)]
 fn post_list(PostProps { posts }: &PostProps) -> Html {
     posts.iter().map(|post| html! {
-        <div>
-            <p>{format!("{}", post.title)}</p>
+        <div class="card">
+            <p>{format!("ID: {} | Created at: {}", post.id, post.created_at)}</p>
+            <h2>{format!("{}", post.title)}</h2>
             <p>{format!("{}", post.body)}</p>
         </div>
     }).collect()
