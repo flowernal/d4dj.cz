@@ -7,7 +7,7 @@ const app = new Elysia()
     .use(
         jwt({
             name: "jwt",
-            secret: ""
+            secret: Bun.env.JWT_SECRET || "secret",
         })
     )
     .use(cookie())
