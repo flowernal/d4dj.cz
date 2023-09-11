@@ -1,20 +1,19 @@
 use yew::prelude::*;
+use yew_router::prelude::*;
+use frontend::router::{AppRoute, switch};
+use stylist::Style;
 
-#[function_component]
-fn App() -> Html {
-    let counter = use_state(|| 0);
-    let onclick = {
-        let counter = counter.clone();
-        move |_| {
-            let value = *counter + 1;
-            counter.set(value);
-        }
-    };
+const STYLE_FILE: &str = include_str!("css/styles.css");
+
+#[function_component(App)]
+fn app() -> Html {
+    let stylesheet = Style::new(STYLE_FILE).unwrap();
 
     html! {
-        <div>
-            <button {onclick}>{ "+1" }</button>
-            <p>{ *counter }</p>
+        <div class={stylesheet}>
+            <BrowserRouter>
+                <Switch<AppRoute> render={switch} />
+            </BrowserRouter>
         </div>
     }
 }
