@@ -31,7 +31,6 @@ pub fn post_page() -> Html {
         });
 
         wasm_bindgen_futures::spawn_local(async move {
-            log!(post_data.to_string());
             let response = Request::post("https://d4dj.cz/api/posts")
                 .header("Content-Type", "application/json")
                 .body(post_data.to_string())

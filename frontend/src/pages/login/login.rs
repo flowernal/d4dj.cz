@@ -1,7 +1,6 @@
 use serde_json::json;
 use serde::{Serialize, Deserialize};
 use yew::prelude::*;
-use yewdux::prelude::*;
 use gloo_net::http::Request;
 use crate::components::{
     header::Header,
@@ -11,8 +10,8 @@ use crate::components::{
 
 #[derive(Deserialize)]
 pub struct LoginResponse {
-    pub id: u32,
-    pub username: String,
+    pub success: bool,
+    pub token: Option<String>
 }
 
 pub async fn login_req(username: String, password: String) -> LoginResponse {
@@ -21,14 +20,30 @@ pub async fn login_req(username: String, password: String) -> LoginResponse {
         "password": password,
     });
 
-    todo!();
+    let response = Request::post("https://d4dj.cz/api/users/login")
+        .header("Content-Type", "application/json")
+        .body(body.to_string())
+        .unwrap()
+        .send()
+        .await
+        .unwrap()
+        .json::<LoginResponse>()
+        .await
+        .unwrap();
+
+    return response;
+
 }
 
 #[function_component(LoginPage)]
 pub fn login() -> Html {
     let handle_submit = Callback::from(|data: LoginProps| {
-        print!("cs");
+        wasm_bindgen_futures::spawn_local(async move {
+            let response = login_req(data.username, data.password);
+            gloo::console::log!(response.await.token);
+        });
     });
+
     html! {
         <div>
             <Header />
